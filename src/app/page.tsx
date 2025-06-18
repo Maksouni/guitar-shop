@@ -1,3 +1,4 @@
+import BrandsList from "@/components/BrandsList";
 import { GuitarShowcase } from "@/components/GuitarShowcase";
 
 export default function HomePage() {
@@ -7,6 +8,7 @@ export default function HomePage() {
         Добро пожаловать в Guitar Shop
       </h1>
       <GuitarShowcase />
+      <BrandsList />
     </section>
   );
 }

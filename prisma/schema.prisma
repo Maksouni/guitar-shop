@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model brands {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  guitars guitars[]
+}
+
+model fret_counts {
+  id      Int       @id @default(autoincrement())
+  count   Int       @unique
+  guitars guitars[]
+}
+
+model guitar_types {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  guitars guitars[]
+}
+
+model guitars {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  price                 Int
+  image_url             String?
+  description           String?
+  brand_id              Int?
+  shape_id              Int?
+  type_id               Int?
+  string_count_id       Int?
+  pickup_config_id      Int?
+  fret_count_id         Int?
+  created_at            DateTime?              @default(now()) @db.Timestamp(6)
+  is_popular            Boolean?               @default(false)
+  in_stock              Int?                   @default(1)
+  brands                brands?                @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  fret_counts           fret_counts?           @relation(fields: [fret_count_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pickup_configurations pickup_configurations? @relation(fields: [pickup_config_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shapes                shapes?                @relation(fields: [shape_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  string_counts         string_counts?         @relation(fields: [string_count_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  guitar_types          guitar_types?          @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model pickup_configurations {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  guitars guitars[]
+}
+
+model roles {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  users users[]
+}
+
+model shapes {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  guitars guitars[]
+}
+
+model string_counts {
+  id      Int       @id @default(autoincrement())
+  count   Int       @unique
+  guitars guitars[]
+}
+
+model users {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String    @unique
+  password   String
+  role_id    Int?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  roles      roles?    @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
