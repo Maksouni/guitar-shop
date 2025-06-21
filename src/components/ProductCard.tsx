@@ -29,7 +29,7 @@ export default function ProductCard({ id }: ProductCardProps) {
           <img
             src={guitar.image_url}
             alt={guitar.name}
-            className="object-cover w-full h-full"
+            className="object-contain bg-white p-2 w-full h-full"
           />
         ) : (
           <div className="text-sm text-gray-500">Нет изображения</div>
