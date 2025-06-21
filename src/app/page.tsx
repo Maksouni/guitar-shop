@@ -1,5 +1,4 @@
 import AddGuitarWindow from "@/components/AddGuitarWindow";
-import BrandsList from "@/components/BrandsList";
 import { GuitarShowcase } from "@/components/GuitarShowcase";
 
 export default function HomePage() {
@@ -8,7 +7,7 @@ export default function HomePage() {
       <h1 className="text-3xl font-bold mb-6">
         Добро пожаловать в Guitar Shop
       </h1>
-      <GuitarShowcase />
+      {/* <GuitarShowcase /> */}
       <AddGuitarWindow />
     </section>
   );

@@ -22,7 +22,6 @@ export default function AddGuitarWindow() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    image_url: "",
     description: "",
     brand_id: "",
     shape_id: "",
@@ -78,29 +77,8 @@ export default function AddGuitarWindow() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    let imageUrl = "";
-
-    if (file) {
-      const form = new FormData();
-      form.append("file", file);
-
-      const uploadRes = await fetch("/api/upload", {
-        method: "POST",
-        body: form,
-      });
-
-      if (uploadRes.ok) {
-        const data = await uploadRes.json();
-        imageUrl = data.imageUrl;
-      } else {
-        alert("Ошибка при загрузке изображения");
-        return;
-      }
-    }
-
     const payload = {
       ...formData,
-      image_url: imageUrl,
       price: Number(formData.price),
       brand_id: Number(formData.brand_id),
       shape_id: Number(formData.shape_id),
@@ -118,11 +96,28 @@ export default function AddGuitarWindow() {
     });
 
     if (res.ok) {
-      alert("Гитара добавлена!");
+      const created = await res.json();
+
+      if (file) {
+        const imageForm = new FormData();
+        imageForm.append("file", file);
+        imageForm.append("guitarId", created.id);
+
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: imageForm,
+        });
+
+        if (!uploadRes.ok) {
+          alert("Гитара добавлена, но не удалось загрузить изображение.");
+        }
+      }
+
+      alert("Гитара успешно добавлена!");
+
       setFormData({
         name: "",
         price: "",
-        image_url: "",
         description: "",
         brand_id: "",
         shape_id: "",
@@ -141,7 +136,10 @@ export default function AddGuitarWindow() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border-2 p-6 mt-6 space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="border-2 rounded-2xl p-6 mt-6 space-y-4"
+    >
       <h1 className="text-2xl font-bold">Добавить гитару</h1>
 
       <input
@@ -162,17 +160,15 @@ export default function AddGuitarWindow() {
       />
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Загрузить изображение</label>
+        <label className="block mb-1 font-medium">Выбрать изображение</label>
 
         <div className="relative w-full">
           <input
-            id="imageUpload"
             type="file"
             accept="image/*"
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             onChange={handleFileChange}
           />
-
           <div className="border border-dashed border-gray-400 rounded-md p-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
             <span className="text-sm text-gray-600">
               Нажмите, чтобы выбрать файл
@@ -181,10 +177,10 @@ export default function AddGuitarWindow() {
         </div>
       </div>
 
-      {(preview || formData.image_url) && (
+      {preview && (
         <div className="mt-2">
           <img
-            src={preview || formData.image_url}
+            src={preview}
             alt="Preview"
             className="max-h-48 rounded border"
           />
@@ -299,6 +295,7 @@ export default function AddGuitarWindow() {
         type="number"
         className="border p-2 w-full"
         value={formData.in_stock}
+        min={0}
         onChange={handleChange}
       />
 
