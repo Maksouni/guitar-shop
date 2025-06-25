@@ -8,7 +8,7 @@ export default function HomePage() {
         Добро пожаловать в Guitar Shop
       </h1>
       {/* <GuitarShowcase /> */}
-      <AddGuitarWindow />
+      {/* <AddGuitarWindow /> */}
     </section>
   );
 }

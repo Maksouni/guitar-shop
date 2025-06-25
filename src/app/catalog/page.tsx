@@ -32,11 +32,6 @@ export default function Catalog() {
           <div className="border-2 min-w-120 p-2">
             <h1>Гитары</h1>
             <GuitarShowcase ids={guitars.map((guitar) => guitar.id)} />
-            {/* <ul className="list-none">
-              {guitars.map((guitar) => (
-                <ProductCard key={guitar.id} product={guitar} />
-              ))}
-            </ul> */}
           </div>
         </div>
       </div>

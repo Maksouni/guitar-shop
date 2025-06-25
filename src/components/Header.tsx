@@ -8,8 +8,8 @@ export function Header() {
           Guitar Shop
         </Link>
         <nav className="space-x-6">
+          <Link href="/admin">Для админа</Link>
           <Link href="/">Главная</Link>
-
           <Link href="/catalog">Каталог</Link>
           <Link href="/about">О нас</Link>
           {/* <Link href="/cart">Корзина</Link> */}

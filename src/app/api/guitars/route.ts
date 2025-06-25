@@ -103,3 +103,86 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+
+export async function PUT(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const body = await req.json();
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    const {
+      name,
+      price,
+      image_url,
+      description,
+      brand_id,
+      shape_id,
+      type_id,
+      string_count_id,
+      pickup_config_id,
+      fret_count_id,
+      is_popular,
+      in_stock,
+    } = body;
+
+    const updatedGuitar = await prisma.guitars.update({
+      where: { id },
+      data: {
+        name,
+        price,
+        image_url,
+        description,
+        brand_id,
+        shape_id,
+        type_id,
+        string_count_id,
+        pickup_config_id,
+        fret_count_id,
+        is_popular,
+        in_stock,
+      },
+    });
+
+    return NextResponse.json(updatedGuitar);
+  } catch (error) {
+    console.error("[PUT /api/guitars]", error);
+
+    if (error instanceof Error && error.message.includes("RecordNotFound")) {
+      return NextResponse.json({ error: "Guitar not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    }
+
+    await prisma.guitars.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("[DELETE /api/guitars]", error);
+
+    if (
+      error instanceof Error &&
+      error.message.includes("Record to delete does not exist")
+    ) {
+      return NextResponse.json({ error: "Guitar not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
