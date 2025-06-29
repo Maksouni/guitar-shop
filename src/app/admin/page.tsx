@@ -2,7 +2,7 @@
 import GuitarTableCell from "@/components/GuitarTableCell";
 import { guitars } from "@/generated/prisma";
 import { useEffect, useState } from "react";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 
 export default function AdminPage() {
   const [guitars, setGuitars] = useState<guitars[]>([]);

@@ -56,7 +56,7 @@ export default function AuthPage() {
           password: data.password,
         });
 
-        router.push("/dashboard");
+        router.push("/");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Ошибка регистрации");
       }
