@@ -11,8 +11,7 @@ export function Header() {
           <Link href="/admin">Для админа</Link>
           <Link href="/">Главная</Link>
           <Link href="/catalog">Каталог</Link>
-          {/* <Link href="/about">О нас</Link> */}
-          {/* <Link href="/cart">Корзина</Link> */}
+          <Link href="/auth">Вход</Link>
         </nav>
       </div>
     </header>

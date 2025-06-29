@@ -40,11 +40,11 @@ export default function Filters({ onChange }: FilterProps) {
     const { name, value } = e.target;
     const updated = { ...filters, [name]: value };
     setFilters(updated);
-    onChange(updated); // передаём изменения вверх
+    onChange(updated);
   };
 
   return (
-    <div className="space-y-4 p-4 bg-gray-100 rounded-md shadow-sm">
+    <div className="space-y-4 p-4 rounded-md">
       <h2 className="text-lg font-semibold">Фильтры</h2>
 
       <select
