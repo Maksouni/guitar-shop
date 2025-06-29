@@ -56,9 +56,18 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const fieldsParam = searchParams.get("fields");
+    const popularParam = searchParams.get("popular");
+
+    const where: any = {};
+
+    if (popularParam === "true") {
+      where.is_popular = true;
+    }
 
     if (!fieldsParam) {
-      const guitars = await prisma.guitars.findMany();
+      const guitars = await prisma.guitars.findMany({
+        where,
+      });
       return NextResponse.json(guitars);
     }
 
@@ -91,6 +100,7 @@ export async function GET(req: Request) {
     }
 
     const guitars = await prisma.guitars.findMany({
+      where,
       select: selected.reduce((acc, field) => {
         acc[field] = true;
         return acc;

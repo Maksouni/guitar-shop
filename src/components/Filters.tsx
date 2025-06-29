@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 type FilterProps = {
-  onChange: (filters: Record<string, string>) => void;
+  onChange?: (filters: Record<string, string>) => void;
 };
 
 export default function Filters({ onChange }: FilterProps) {
@@ -40,13 +40,11 @@ export default function Filters({ onChange }: FilterProps) {
     const { name, value } = e.target;
     const updated = { ...filters, [name]: value };
     setFilters(updated);
-    onChange(updated);
+    // onChange(updated);
   };
 
   return (
     <div className="space-y-4 p-4 rounded-md">
-      <h2 className="text-lg font-semibold">Фильтры</h2>
-
       <select
         name="brand_id"
         className="border p-2 w-full"
