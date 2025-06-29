@@ -43,12 +43,20 @@ export function Header() {
               Вход
             </Link>
           ) : (
-            <button
-              onClick={() => signOut()}
-              className="hover:text-red-400 transition-colors"
-            >
-              Выйти
-            </button>
+            <>
+              <Link
+                href="/cart"
+                className="hover:text-yellow-400 transition-colors"
+              >
+                Корзина
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="hover:text-red-400 transition-colors"
+              >
+                Выйти
+              </button>
+            </>
           )}
         </nav>
       </div>

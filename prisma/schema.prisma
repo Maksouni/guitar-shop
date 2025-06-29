@@ -41,6 +41,7 @@ model guitars {
   created_at            DateTime?              @default(now()) @db.Timestamp(6)
   is_popular            Boolean?               @default(false)
   in_stock              Int?                   @default(1)
+  cart_items            cart_items[]
   brands                brands?                @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   fret_counts           fret_counts?           @relation(fields: [fret_count_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   pickup_configurations pickup_configurations? @relation(fields: [pickup_config_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -79,5 +80,23 @@ model users {
   password   String
   role_id    Int?
   created_at DateTime? @default(now()) @db.Timestamp(6)
+  cart       cart?
   roles      roles?    @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model cart {
+  id         Int          @id @default(autoincrement())
+  user_id    String       @unique @db.Uuid
+  users      users        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cart_items cart_items[]
+}
+
+model cart_items {
+  cart_id   Int
+  guitar_id String  @db.Uuid
+  count     Int     @default(0)
+  cart      cart    @relation(fields: [cart_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  guitars   guitars @relation(fields: [guitar_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([cart_id, guitar_id])
 }
