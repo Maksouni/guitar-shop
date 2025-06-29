@@ -1,3 +1,4 @@
+import CatalogClientButton from "@/components/CatalogClientButton";
 import { notFound } from "next/navigation";
 
 export default async function GuitarPage({
@@ -72,6 +73,7 @@ export default async function GuitarPage({
           </li>
           <li>В наличии: {guitar.in_stock ? "Да" : "Нет"}</li>
         </ul>
+        <CatalogClientButton guitar={guitar} />
       </div>
     </div>
   );

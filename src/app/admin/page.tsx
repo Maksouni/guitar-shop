@@ -1,6 +1,7 @@
 "use client";
 import GuitarTableCell from "@/components/GuitarTableCell";
 import { guitars } from "@/generated/prisma";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 
@@ -35,6 +36,13 @@ export default function AdminPage() {
     <div className="flex flex-col w-full p-4 ">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Управление товарами</h1>
+        <Link
+          href="/admin/users"
+          className="flex items-center gap-2 cursor-pointer rounded-2xl 
+          hover:shadow-md transition-shadow duration-200 p-2"
+        >
+          Управление пользователями
+        </Link>
         <button
           className="flex items-center gap-2 cursor-pointer rounded-2xl 
           hover:shadow-md transition-shadow duration-200 p-2"
